@@ -1,0 +1,9 @@
+---
+applications:
+- name: restAPIshow
+  disk_quota: 1536M
+  memory: 256M
+  buildpack: https://github.com/cloudfoundry/dotnet-core-buildpack.git
+  services:
+    - cfg-service
+
