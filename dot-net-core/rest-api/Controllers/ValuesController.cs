@@ -36,17 +36,19 @@ namespace rest2.Controllers
 
     // GET api/values/5
     [HttpGet("{id}")]
-    public ActionResult<string> Get(string id)
+    public ActionResult<TestData> Get(string id)
     {
 			cq.Enqueue(id);
-      return String.Format("Size {0}", cq.Count );
+			return createResponse("size", cq.Count.ToString());
     }
 
     // POST api/values
     [HttpPost]
-    public void Post([FromBody] string value)
+    public void Post([FromBody] string[] data)
     {
-			//cq.Enqueue(value);
+			foreach (string value in data) {
+				cq.Enqueue(value);
+			}
     }
 
     // PUT api/values/5

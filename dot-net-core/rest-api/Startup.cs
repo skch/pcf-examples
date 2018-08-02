@@ -10,11 +10,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Pivotal.Discovery.Client;
-//using Steeltoe.Extensions.Configuration;
-//using Pivotal.Extensions.Configuration.ConfigServer;
-using Steeltoe.Management.CloudFoundry;
-using Steeltoe.Management.Endpoint.Health;
 
 namespace rest2
 {
@@ -23,7 +18,7 @@ namespace rest2
 		private readonly ILogger<Startup> _logger;
 		public IConfiguration Configuration { get; }
 
-		public Startup(IConfiguration configuration, ILogger<Startup> logger)
+		public Startup(IConfiguration configuration, ILogger<Startup> logger, IHostingEnvironment env)
 		{
 			Configuration = configuration;
 			_logger = logger;
@@ -33,7 +28,6 @@ namespace rest2
 		{
 			try
 			{
-				services.AddCloudFoundryActuators(Configuration);
 				services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 				services.AddMvc();
         services.AddSingleton(Configuration);  
@@ -46,14 +40,7 @@ namespace rest2
 
     public void Configure(IApplicationBuilder app, IHostingEnvironment env)
     {
-    	try
-    	{
-    		app.UseMvc();
-    	}
-    	catch (Exception ex)
-    	{
-    		_logger.LogError(ex, "Startup.cs - Configure() error ");
-    	}
+			app.UseMvc();
     }
 
   }

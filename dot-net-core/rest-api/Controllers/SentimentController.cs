@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using Steeltoe.Extensions.Configuration.CloudFoundry;
 
 namespace rest2.Controllers
 {
