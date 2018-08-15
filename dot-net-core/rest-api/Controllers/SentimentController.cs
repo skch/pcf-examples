@@ -1,26 +1,38 @@
+using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using RestApiShowcase.Models;
 
 namespace RestApiShowcase.Controllers
 {
   [Route("api/[controller]")]
   public class SentimentController : Controller
   {  
-    private readonly AppSettings _appSettings;
-    public SentimentController(IOptions<AppSettings> options)
+    private IOptionsSnapshot<ConfigurationSettings> ConfigSettings { get; set; }
+    private ILogger<SentimentController> _logger;
+    public SentimentController(ILogger<SentimentController> logger, 
+							IOptionsSnapshot<ConfigurationSettings> configServerData)
     {
-        _appSettings = options.Value;
+      _logger = logger;
+			if (configServerData != null)
+					ConfigSettings = configServerData;
     }
 
 
     public async Task<float> Get(string message)
     {
-      var response = await MakeRequest(message, _appSettings.MicrosoftApiKey);
+      string MSKEY = ConfigSettings.Value.AppSettings.MicrosoftApiKey;
+			if (String.IsNullOrEmpty(MSKEY)) {
+				_logger.LogWarning("Microsoft cognitive services are not configured");
+				return -1;
+			}
+      var response = await MakeRequest(message, MSKEY);
       if (response.IsSuccessStatusCode)
       {
         var data = await response.Content.ReadAsStringAsync();
@@ -28,7 +40,8 @@ namespace RestApiShowcase.Controllers
         return (float) results.documents[0].score.Value;
       }
 
-      return 0;
+      _logger.LogWarning("Issues:: "+response.StatusCode);
+      return -2;
     }
 
     private static async Task<HttpResponseMessage> MakeRequest(string msg, string key)

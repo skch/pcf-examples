@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using Pivotal.Extensions.Configuration.ConfigServer;
+using Steeltoe.Extensions.Configuration.CloudFoundry;
 using RestApiShowcase.Models;
 
 namespace RestApiShowcase.Controllers
@@ -13,15 +16,49 @@ namespace RestApiShowcase.Controllers
   [ApiController]
   public class ValuesController : ControllerBase
   {
+		private IOptionsSnapshot<ConfigurationSettings> ConfigSettings { get; set; }
+		private CloudFoundryServicesOptions CloudFoundryServices { get; set; }
+		private CloudFoundryApplicationOptions CloudFoundryApplication { get; set; }
+		private ConfigServerClientSettingsOptions ConfigServerClientSettingsOptions { get; set; }
+		private IConfiguration Configuration { get; }
     private static ConcurrentQueue<string> cq = new ConcurrentQueue<string>();
-    private readonly AppSettings _appSettings;
-    public ValuesController(IOptions<AppSettings> options)
+    
+    public ValuesController(IConfigurationRoot config,
+            IOptionsSnapshot<ConfigurationSettings> configServerData,
+            IOptions<CloudFoundryApplicationOptions> appOptions,
+            IOptions<CloudFoundryServicesOptions> servOptions,
+            IOptions<ConfigServerClientSettingsOptions> confgServerSettings)
     {
-      _appSettings = options.Value;
+      // The ASP.NET DI mechanism injects the data retrieved from the
+			// Spring Cloud Config Server as an IOptionsSnapshot<ConfigServerData>
+			// since we added "services.Configure<ConfigServerData>(Configuration);"
+			// in the StartUp class
+			if (configServerData != null)
+					ConfigSettings = configServerData;
+
+			// The ASP.NET DI mechanism injects these as well, see
+			// public void ConfigureServices(IServiceCollection services) in Startup class
+			if (servOptions != null)
+					CloudFoundryServices = servOptions.Value;
+			if (appOptions != null)
+					CloudFoundryApplication = appOptions.Value;
+
+			// Inject the settings used in communicating with the Spring Cloud Config Server
+			if (confgServerSettings != null)
+					ConfigServerClientSettingsOptions = confgServerSettings.Value;
+
+			Configuration = config;
     }
 
     private TestData createResponse(string name, string value) {
-      return new TestData { environment = _appSettings.Host, status = name, message = value };
+      return new TestData { 
+				environment = ConfigSettings.Value.AppSettings.Host, 
+				name = ConfigServerClientSettingsOptions.Name,
+				version = Configuration["version"],
+				CFID = CloudFoundryApplication.Application_Id,
+				status = name, 
+				message = value 
+				};
     }
 
     // GET api/values

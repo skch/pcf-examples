@@ -11,6 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using Pivotal.Extensions.Configuration.ConfigServer;
+using Steeltoe.Extensions.Configuration.CloudFoundry;
+using RestApiShowcase.Models;
+
 namespace RestApiShowcase
 {
 	public class Startup
@@ -28,13 +32,17 @@ namespace RestApiShowcase
 		{
 			try
 			{
-				services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+				services.AddOptions();
+				services.ConfigureConfigServerClientOptions(Configuration);
+				services.AddConfiguration(Configuration);
+				services.ConfigureCloudFoundryOptions(Configuration);
+
 				services.AddMvc();
-        services.AddSingleton(Configuration);  
+				services.Configure<ConfigurationSettings>(Configuration); 
       }
       catch (Exception ex)
       {
-      	_logger.LogError(ex, "Startup.cs - ConfigureServices() error ");
+      	_logger.LogError(ex, "Startup/ConfigureServices()");
       }
     }
 
