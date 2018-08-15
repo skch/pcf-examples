@@ -79,7 +79,9 @@ namespace RestApiShowcase.Controllers
     [HttpPost]
     public void Post([FromBody] string[] data)
     {
+	    int max_count = ConfigSettings.Value.AppSettings.MaxStore;
 			foreach (string value in data) {
+				if (cq.Count >= max_count) break;
 				cq.Enqueue(value);
 			}
     }
