@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using rest2.Models;
+using RestApiShowcase.Models;
 
-namespace rest2.Controllers
+namespace RestApiShowcase.Controllers
 {
   [Route("api/[controller]")]
   [ApiController]

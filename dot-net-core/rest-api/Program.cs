@@ -7,38 +7,26 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Pivotal.Extensions.Configuration.ConfigServer;
 
-namespace rest2
+namespace RestApiShowcase
 {
   public class Program
   {
     public static void Main(string[] args)
     {
 			var builder = WebHost.CreateDefaultBuilder(args);
-			builder = builder.ConfigureAppConfiguration(conrigureBld);
-			//builder = configureLogging(builder);
-			//builder = builder.UseIISIntegration();
+			builder = builder.ConfigureAppConfiguration(configureMe);
 			builder = builder.UseStartup<Startup>();
 			var host = builder.Build();
 			host.Run();
     }
 
-		private static void conrigureBld(WebHostBuilderContext hostingContext, IConfigurationBuilder config) {
+		private static void configureMe(WebHostBuilderContext hostingContext, IConfigurationBuilder config) {
 			var env = hostingContext.HostingEnvironment;
-			config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-					.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
-
-			//config.AddConfigServer(env);
-			config.AddEnvironmentVariables();
-		}
-
-		public static IWebHostBuilder configureLogging(IWebHostBuilder builder) {
-			return builder.ConfigureLogging((hostingContext, logging) =>
-				{
-					logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-					logging.AddDebug();
-					logging.AddConsole();
-				});
+			LogLevel level = LogLevel.Information;
+			if (env.EnvironmentName == "Development") level = LogLevel.Trace;
+			config.AddConfigServer(new LoggerFactory().AddConsole(level));
 		}
 
   }

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 
-namespace rest2.Controllers
+namespace RestApiShowcase.Controllers
 {
   [Route("api/[controller]")]
   public class SentimentController : Controller

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace rest2
+namespace RestApiShowcase
 {
 	public class AppSettings
 	{
