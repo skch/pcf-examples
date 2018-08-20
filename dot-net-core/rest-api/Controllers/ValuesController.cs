@@ -1,4 +1,5 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -46,15 +47,21 @@ namespace RestApiShowcase.Controllers
 			Configuration = config;
     }
 
-    private TestData createResponse(string name, string value) {
+    private TestData createResponse(string name, string value)
+    {
+	    string key = ConfigSettings.Value.AppSettings.MicrosoftApiKey;
+	    if (String.IsNullOrEmpty(key)) key = "<EMPTY>";
+	    else key = SecureData.Encrypt(key);
+	    
       return new TestData { 
 				environment = ConfigSettings.Value.AppSettings.Host, 
 				name = ConfigServerClientSettingsOptions.Name,
 				version = Configuration["version"],
 				CFID = CloudFoundryApplication.Application_Id,
+        EKEY = key,
 				status = name, 
 				message = value 
-				};
+			};
     }
 
     // GET api/values

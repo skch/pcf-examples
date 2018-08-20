@@ -15,7 +15,7 @@ namespace RestApiShowcase.Controllers
   public class SentimentController : Controller
   {  
     private IOptionsSnapshot<ConfigurationSettings> ConfigSettings { get; set; }
-    private ILogger<SentimentController> _logger;
+    private readonly ILogger<SentimentController> _logger;
     public SentimentController(ILogger<SentimentController> logger, 
 							IOptionsSnapshot<ConfigurationSettings> configServerData)
     {
@@ -29,7 +29,7 @@ namespace RestApiShowcase.Controllers
     {
       string MSKEY = ConfigSettings.Value.AppSettings.MicrosoftApiKey;
 			if (String.IsNullOrEmpty(MSKEY)) {
-				_logger.LogWarning("Microsoft cognitive services are not configured");
+				_logger.LogWarning("Microsoft cognitive services are not configured for "+ConfigSettings.Value.AppSettings.Host);
 				return -1;
 			}
       var response = await MakeRequest(message, MSKEY);
