@@ -15,6 +15,7 @@ namespace RestApiShowcase
 		private readonly ILogger<Startup> _logger;
 		public IConfiguration Configuration { get; }
 
+
 		public Startup(IConfiguration configuration, ILogger<Startup> logger, IHostingEnvironment env)
 		{
 			Configuration = configuration;
@@ -32,6 +33,11 @@ namespace RestApiShowcase
 
 				services.AddMvc();
 				services.Configure<ConfigurationSettings>(Configuration); 
+
+				// You can access configuration in the startup code
+				var appHost = Configuration["AppSettings:Host"];
+				if (appHost == null) { _logger.LogWarning("Invalid configuration settings"); return; }
+				_logger.LogInformation("Application host:: "+appHost);
       }
       catch (Exception ex)
       {

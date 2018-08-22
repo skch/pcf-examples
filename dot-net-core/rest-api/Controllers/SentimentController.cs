@@ -32,6 +32,9 @@ namespace RestApiShowcase.Controllers
 				_logger.LogWarning("Microsoft cognitive services are not configured for "+ConfigSettings.Value.AppSettings.Host);
 				return -1;
 			}
+      
+      //_logger.LogInformation("Use the decrypted key: "+MSKEY);
+      
       var response = await MakeRequest(message, MSKEY);
       if (response.IsSuccessStatusCode)
       {
@@ -50,7 +53,7 @@ namespace RestApiShowcase.Controllers
       var client = new HttpClient();
       client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", key);
 
-      var uri = "https://westcentralus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment";
+      var uri = "https://eastus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment";
 
       HttpResponseMessage response;
 

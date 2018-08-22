@@ -49,16 +49,11 @@ namespace RestApiShowcase.Controllers
 
     private TestData createResponse(string name, string value)
     {
-	    string key = ConfigSettings.Value.AppSettings.MicrosoftApiKey;
-	    if (String.IsNullOrEmpty(key)) key = "<EMPTY>";
-	    else key = SecureData.Encrypt(key);
-	    
       return new TestData { 
 				environment = ConfigSettings.Value.AppSettings.Host, 
 				name = ConfigServerClientSettingsOptions.Name,
 				version = Configuration["version"],
 				CFID = CloudFoundryApplication.Application_Id,
-        EKEY = key,
 				status = name, 
 				message = value 
 			};

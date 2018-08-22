@@ -15,7 +15,7 @@ namespace RestApiShowcase.Models
 
 		public string MicrosoftApiKey
 		{
-			get => SecureData.Decrypt(microsoftApiKey);
+			get => RsaTools.Decrypt(microsoftApiKey, AppVault.getPrivateKey());
 			set => microsoftApiKey = value;
 		}
 		
