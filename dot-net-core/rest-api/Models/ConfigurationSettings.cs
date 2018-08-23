@@ -10,6 +10,7 @@ namespace RestApiShowcase.Models
 	public class ConfigAppSettings
 	{
 		public string Host { get; set; }
+		public string MicrosoftUri { get; set; }
 
 		private string microsoftApiKey;
 

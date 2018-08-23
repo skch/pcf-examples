@@ -47,13 +47,13 @@ namespace RestApiShowcase.Controllers
       return -2;
     }
 
-    private static async Task<HttpResponseMessage> MakeRequest(string msg, string key)
+    private async Task<HttpResponseMessage> MakeRequest(string msg, string key)
     {
       
       var client = new HttpClient();
       client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", key);
 
-      var uri = "https://eastus.api.cognitive.microsoft.com/text/analytics/v2.0/sentiment";
+      var uri = ConfigSettings.Value.AppSettings.MicrosoftUri;
 
       HttpResponseMessage response;
 
