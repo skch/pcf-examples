@@ -12,8 +12,8 @@ sed -e "s;%VERSION%;$gver;g" $cfgtmp > $cfg
 vault=Models/AppVault.cs
 vaulttmp=../vault.cs
 pkey=`cat ../privatekey.md`
-cp $vault $cfgvault
-sed -e "s;%PRIVATEKEY%;$gver;g" $cfgvault > $vault
+cp $vault $vaulttmp
+sed -e "s;%PRIVATEKEY%;$pkey;g" $vaulttmp > $vault
 
 # Build and push
 dotnet build

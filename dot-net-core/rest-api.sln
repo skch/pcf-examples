@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rest-api", "rest-api\rest-api.csproj", "{F21173A7-A7FF-43C1-9F48-28DA2A00E69D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test-rest-api", "test-rest-api\test-rest-api.csproj", "{7725036A-6259-491B-A06A-9101ADBA8B1A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F21173A7-A7FF-43C1-9F48-28DA2A00E69D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F21173A7-A7FF-43C1-9F48-28DA2A00E69D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F21173A7-A7FF-43C1-9F48-28DA2A00E69D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F21173A7-A7FF-43C1-9F48-28DA2A00E69D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E81EC3A9-1E0C-44BC-BB2F-83A7696907B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E81EC3A9-1E0C-44BC-BB2F-83A7696907B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E81EC3A9-1E0C-44BC-BB2F-83A7696907B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7725036A-6259-491B-A06A-9101ADBA8B1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7725036A-6259-491B-A06A-9101ADBA8B1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7725036A-6259-491B-A06A-9101ADBA8B1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7725036A-6259-491B-A06A-9101ADBA8B1A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
